@@ -94,6 +94,8 @@ Config = {
     NewscamEnabled = true,
     -- Check for updates
     CheckForUpdates = true,
+    --You can enable the info menu here.
+    InfoEnabled = false,
 }
 
 Config.KeybindKeys = {

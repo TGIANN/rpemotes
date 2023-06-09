@@ -36,10 +36,15 @@ local emoteTypes = {
 
 for i = 1, #emoteTypes do
     local emoteType = emoteTypes[i]
-    for emoteName, emoteData in pairs(RP[emoteType]) do
-        local shouldRemove = false
-        if emoteData[1] and not ((emoteData[1] == 'Scenario') or (emoteData[1] == 'ScenarioObject') or (emoteData[1] == 'MaleScenario')) and not DoesAnimDictExist(emoteData[1]) then shouldRemove = true end
-        if shouldRemove then RP[emoteType][emoteName] = nil end
+    local emotes = RP[emoteType]
+    if emotes then
+        for emoteName, emoteData in pairs(emotes) do
+            local shouldRemove = false
+            if emoteData[1] and not ((emoteData[1] == 'Scenario') or (emoteData[1] == 'ScenarioObject') or (emoteData[1] == 'MaleScenario')) and not DoesAnimDictExist(emoteData[1]) then shouldRemove = true end
+            if shouldRemove then emotes[emoteName] = nil end
+        end
+    else
+        DebugPrint("Emote Type Not Found! ("..emoteType..")")
     end
 end
 
@@ -94,7 +99,7 @@ end
 -- Commands / Events --------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
-Citizen.CreateThread(function()
+CreateThread(function()
     TriggerEvent('chat:addSuggestion', '/e', 'Play an emote',
         { { name = "emotename", help = "dance, camera, sit or any valid emote." },
             { name = "texturevariation", help = "(Optional) 1, 2, 3 or any number. Will change the texture of some props used in emotes, for example the color of a phone. Enter -1 to see a list of variations." } })
@@ -135,7 +140,6 @@ if Config.HandsupEnabled then
 
         Handsup()
     end, false)
-
 
     function Handsup()
         inHandsup = not inHandsup
@@ -520,6 +524,10 @@ end
 -----------------------------------------------------------------------------------------------------
 
 function OnEmotePlay(EmoteName, name, textureVariation)
+    if not CanPlayAnimation() then 
+        return
+    end
+
     InVehicle = IsPedInAnyVehicle(PlayerPedId(), true)
 	Pointing = false
 
@@ -558,6 +566,7 @@ function OnEmotePlay(EmoteName, name, textureVariation)
     end
 
     if ChosenAnimOptions and ChosenAnimOptions.ExitEmote then
+        print(animOption, ChosenAnimOptions.ExitEmote, animOption.ExitEmote, RP.Exits[ChosenAnimOptions.ExitEmote], EmoteName[2])
         if not (animOption and ChosenAnimOptions.ExitEmote == animOption.ExitEmote) and RP.Exits[ChosenAnimOptions.ExitEmote][2] ~= EmoteName[2] then
             return
         end

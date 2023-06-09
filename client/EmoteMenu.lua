@@ -570,6 +570,7 @@ function OpenEmoteMenu()
         ProcessMenu()
     end
 end
+exports("OpenEmoteMenu", OpenEmoteMenu)
 
 AddEmoteMenu(mainMenu)
 AddCancelEmote(mainMenu)
@@ -579,7 +580,9 @@ end
 if Config.ExpressionsEnabled then
     AddFaceMenu(mainMenu)
 end
-AddInfoMenu(mainMenu)
+if Config.InfoEnabled then
+    AddInfoMenu(mainMenu)
+end
 
 _menuPool:RefreshIndex()
 
@@ -597,7 +600,9 @@ end
 RegisterNetEvent("rp:Update")
 AddEventHandler("rp:Update", function(state)
     UpdateAvailable = state
-    AddInfoMenu(mainMenu)
+    if Config.InfoEnabled then
+        AddInfoMenu(mainMenu)
+    end
     _menuPool:RefreshIndex()
 end)
 
@@ -608,9 +613,9 @@ end)
 
 
 -- While ped is dead, don't show menus
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(500)
+        Wait(500)
         if IsEntityDead(PlayerPedId()) then
             _menuPool:CloseAllMenus()
         end

@@ -57,12 +57,12 @@ if Config.NewscamEnabled then
         newscam = not newscam
 
         if newscam then
-            Citizen.CreateThread(function()
+            CreateThread(function()
                 DestroyAllProps()
                 ClearPedTasks(PlayerPedId())
                 RequestAnimDict("missfinale_c2mcs_1")
                 while not HasAnimDictLoaded("missfinale_c2mcs_1") do
-                    Citizen.Wait(5)
+                    Wait(5)
                 end
 
                 -- attach the prop to the player

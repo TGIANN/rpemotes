@@ -17,7 +17,7 @@ if Config.SqlKeybinding then
     -- Commands / Events --------------------------------------------------------------------------------
     -----------------------------------------------------------------------------------------------------
 
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
             if NetworkIsPlayerActive(PlayerId()) and not Initialized then
                 if not Initialized then
@@ -39,7 +39,7 @@ if Config.SqlKeybinding then
                     end
                 end
             end
-            Citizen.Wait(1)
+            Wait(1)
         end
     end)
 

@@ -22,6 +22,11 @@ function IsPlayerAiming(player)
     return IsPlayerFreeAiming(player) or IsAimCamActive() or IsAimCamThirdPersonActive()
 end
 
+function CanPlayAnimation()
+    local playerPed = PlayerPedId()
+    return not IsPedFalling(playerPed) and not IsPedRagdoll(playerPed)
+end
+
 function CanPlayerCrouchCrawl(playerPed)
     if not IsPedOnFoot(playerPed) or IsPedJumping(playerPed) or IsPedFalling(playerPed) or IsPedInjured(playerPed) or IsPedInMeleeCombat(playerPed) or IsPedRagdoll(playerPed) then
         return false

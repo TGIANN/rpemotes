@@ -143,6 +143,7 @@ Languages can be selected and / or added in the config.lua.
 # Exports
 
 ```lua
+exports["rpemotes"]:OpenEmoteMenu()
 exports["rpemotes"]:EmoteCommandStart(emoteName, textureVariation)
 exports["rpemotes"]:EmoteCancel(forceCancel) – forceCancel is optional
 exports["rpemotes"]:CanCancelEmote(state)
